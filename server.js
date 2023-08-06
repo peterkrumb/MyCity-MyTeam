@@ -26,6 +26,21 @@ app.get("/api/endpoint", (req, res) => {
       res.status(500).send(error);
     });
 });
+app.get("/api/generate", (req, res) => {
+  const { playerID } = req.query;
+  console.log(`Received request with search: ` + playerID);
+  axios
+    .get(
+      `https://balldontlie.io/api/v1/season_averages?season=2020&player_ids[]=${playerID}`
+    )
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      res.status(500).send(error);
+    });
+});
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
