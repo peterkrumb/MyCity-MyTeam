@@ -34,7 +34,7 @@ const App = () => {
 
     axios
       .get(
-        `http://localhost:8000/api/generate?playerID=${playerID}&playerFirst=${playerFirst}&playerLast=${playerLast}&search=`,
+        `https://mycity-myteam-50c9ae9b3d0d.herokuapp.com/api/generate?playerID=${playerID}&playerFirst=${playerFirst}&playerLast=${playerLast}&search=`,
         {
           playerID: playerID,
           playerFirst: playerFirst,
@@ -57,7 +57,10 @@ const App = () => {
       console.log(`Sending request with search: ${input}`);
       // Trigger API call
       axios
-        .get("http://localhost:8000/api/endpoint?search=" + input)
+        .get(
+          "https://mycity-myteam-50c9ae9b3d0d.herokuapp.com/endpoint?search=" +
+            input
+        )
         .then((response) => {
           console.log(response.data.data);
           setDropdownData(response.data.data);
