@@ -3,6 +3,7 @@ import axios from "axios";
 import Select from "react-select";
 import "./index.css";
 import logo from "./assets/logo.png";
+import NBASelector from "./teamSelector";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -15,7 +16,6 @@ const App = () => {
 
   const statMapping = {
     games_played: "Games Played",
-    player_id: "Player ID",
     season: "Season",
     min: "Minutes",
     fgm: "FGM",
@@ -24,8 +24,8 @@ const App = () => {
     fg3a: "3PA",
     ftm: "FTM",
     fta: "FTA",
-    oreb: "Offensive Rebounds",
-    dreb: "Defensive Rebounds",
+    oreb: "Off Rebounds",
+    dreb: "Def Rebounds",
     reb: "Total Rebounds",
     ast: "Assists",
     stl: "Steals",
@@ -65,12 +65,21 @@ const App = () => {
 
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
+  };
+
+  const handleSubmit = () => {
+    if (!selectedOption) {
+      console.log("No player selected.");
+      return;
+    }
+
     const playerID = selectedOption.value;
     const [playerFirst, playerLast] = selectedOption.label.split(" ");
+
+    const url = `https://mycity-myteam-50c9ae9b3d0d.herokuapp.com/api/generate?playerID=${playerID}&playerFirst=${playerFirst}&playerLast=${playerLast}&season=${season}`;
+    console.log("Calling URL:", url);
     axios
-      .get(
-        `https://mycity-myteam-50c9ae9b3d0d.herokuapp.com/api/generate?playerID=${playerID}&playerFirst=${playerFirst}&playerLast=${playerLast}&season=${season}`
-      )
+      .get(url)
       .then((res) => {
         setPlayerStats(res.data.data[0]);
       })
@@ -82,6 +91,11 @@ const App = () => {
   return (
     <main className="flex flex-col min-h-screen pt-30 text-center px-0">
       <img src={logo} alt="" />
+      <br />
+      <br />
+      <div max-w-sm>
+        <NBASelector />
+      </div>
       <div className="w-full max-w-lg mx-auto mt-10">
         <label>Select a season:</label>
         <select value={season} onChange={(e) => setSeason(e.target.value)}>
@@ -101,14 +115,21 @@ const App = () => {
           onInputChange={(value) => setInput(value)}
           value={selectedOption}
         />
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 max-w-xs"
+          onClick={handleSubmit}
+        >
+          Fetch Stats
+        </button>
       </div>
+      <br />
       <div className="container mx-auto">
         {playerStats && (
-          <div className="player-stats flex whitespace-nowrap py-4">
+          <div className="player-stats container mx-auto flex flex-wrap py-4 max-w-4xl">
             {Object.entries(playerStats).map(([key, value]) => (
               <div
                 key={key}
-                className="stat-item bg-gray-200 rounded-md w-12 h-12 flex items-center justify-center m-2 overflow-hidden"
+                className="stat-item w-full sm:w-40 h-24 bg-gray-800 text-white rounded-lg m-4 transition-transform transform hover:-translate-y-1 shadow-lg flex items-center justify-center"
               >
                 <div>
                   <strong className="text-sm block text-center truncate">
