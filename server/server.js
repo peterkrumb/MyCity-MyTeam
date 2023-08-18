@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/endpoint", (req, res) => {
-  console.log(`Received request with search: ${req.query.search}`);
+  console.log(`Received query request with search: ${req.query.search}`);
   axios
     .get(
       "https://balldontlie.io/api/v1/players?per_page=100&search=" +
@@ -27,11 +27,13 @@ app.get("/api/endpoint", (req, res) => {
     });
 });
 app.get("/api/generate", (req, res) => {
-  const { playerID } = req.query;
-  console.log(`Received request with search: ` + playerID);
+  const { playerID, season } = req.query;
+  console.log(
+    `Received request with playerID: ${playerID} and season: ${season}`
+  );
   axios
     .get(
-      `https://balldontlie.io/api/v1/season_averages?season=2020&player_ids[]=${playerID}`
+      `https://balldontlie.io/api/v1/season_averages?season=${season}&player_ids[]=${playerID}`
     )
     .then((response) => {
       res.send(response.data);

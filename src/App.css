@@ -1,7 +1,0 @@
-@import url(https://db.onlinewebfonts.com/c/69ae034c9a707f10b5bc0047d767c991?family=Retrology+DEMO);
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-body {
-  @apply m-0 p-0;
-}
