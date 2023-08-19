@@ -36,19 +36,23 @@ const nbaTeamAbbreviations = [
 ];
 
 const teamGradients = {
-  bulls: ["#BB363B", "#B62A29", "#77110F", "#A80403"],
-  lakers: ["#421C52", "#552583", "#FDB927", "#FFEBB2"],
-  heat: ["#98002E", "#F9A01B", "#000000", "#FFFFFF"],
+  bulls: ["#D40026", "#FF3038", "#C00020", "#900014"],
+  lakers: ["#552583", "#702F8A", "#FDB927", "#FFC72C"],
+  heat: ["#98002E", "#B40026", "#500014", "#000000"],
 
   hawks: ["#E03A3E", "#C1D32F", "#26282A", "#BAC3C9"],
-  knicks: ["#006BB6", "#F58426", "#BEC0C2", "#000000"],
+  knicks: ["#006BB6", "#0074C7", "#F15C26", "#F58426"],
+  spurs: ["#C4CED3", "#D1D5D8", "#95989A", "#000000"],
   celtics: ["#007A33", "#BA9653", "#FFFFFF", "#000000"],
   nets: ["#000000", "#FFFFFF", "#C4CED3", "#707070"],
+  raptors: ["#CE1141", "#D61A46", "#000000", "#A09A9B"],
   hornets: ["#1D1160", "#00788C", "#A1A1A4", "#7D7D78"],
-  cavaliers: ["#6F263D", "#FFB81C", "#041E42", "#860038"],
+  cavaliers: ["#6F263D", "#862633", "#FFB81C", "#041E42"],
   mavericks: ["#0053BC", "#00285E", "#BBC4CA", "#8D9093"],
-  nuggets: ["#0E2240", "#FEC524", "#8C92AC", "#1D428A"],
-  warriors: ["#1D428A", "#FFC72C", "#26282A", "#EFD19F"],
+  nuggets: ["#0E2240", "#1D428A", "#FEC524", "#8DB8E2"],
+  warriors: ["#003DA5", "#0051BA", "#FFC72D", "#FFD54F"],
+  rockets: ["#D40026", "#E5002B", "#C4CED3", "#FFFFFF"],
+  clippers: ["#0055B1", "#0065D1", "#C60C30", "#FFFFFF"],
   // ... Add other teams here ...
 };
 
