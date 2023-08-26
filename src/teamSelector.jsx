@@ -71,11 +71,15 @@ const NBASelector = () => {
       value={selectedTeam}
       onChange={handleTeamChange}
     >
-      {Object.keys(teamGradients).map((team) => (
-        <option key={team} value={team}>
-          {team.charAt(0).toUpperCase() + team.slice(1)}
-        </option>
-      ))}
+      {Object.keys(teamGradients).map(
+        (
+          team //team is selected by default when selected team is selected by default
+        ) => (
+          <option key={team} value={team}>
+            {team.charAt(0).toUpperCase() + team.slice(1)}
+          </option>
+        )
+      )}
     </select>
   );
 };

@@ -4,11 +4,13 @@ import Select from "react-select";
 import "./index.css";
 import logo from "./assets/logo.png";
 import NBASelector from "./teamSelector";
+import HighlightGetter from "./highlightGetter.js";
 
 const App = () => {
   const [input, setInput] = useState("");
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [playerStats, setPlayerStats] = useState(null);
   const [season, setSeason] = useState(2020);
 
@@ -38,6 +40,37 @@ const App = () => {
     ft_pct: "FT %",
   };
 
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      background: "#fff",
+      borderColor: state.isFocused ? "blue" : "gray",
+      boxShadow: state.isFocused ? null : null,
+      "&:hover": {
+        borderColor: "blue",
+      },
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: state.isSelected ? "white" : "black",
+      backgroundColor: state.isSelected ? "blue" : null,
+      "&:hover": {
+        backgroundColor: "#f0f0f0",
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      background: "#fff",
+      borderRadius: "5px",
+      boxShadow:
+        "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
+
   useEffect(() => {
     if (input.length >= 3) {
       axios
@@ -65,6 +98,7 @@ const App = () => {
 
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
+    setSelectedPlayer(selectedOption.label);
   };
 
   const handleSubmit = () => {
@@ -82,10 +116,19 @@ const App = () => {
       .get(url)
       .then((res) => {
         setPlayerStats(res.data.data[0]);
+        console.log(res.data.data);
+        console.log(res.data);
+        //log the player name to the console
+
+        //set the selected player to playerFirst + " " + playerLast
+        setSelectedPlayer(playerFirst + " " + playerLast);
+        highlightGetter();
+        console.log(selectedPlayer);
       })
       .catch((err) => {
         console.log(err);
       });
+    HighlightGetter(selectedPlayer);
   };
 
   return (
@@ -109,6 +152,7 @@ const App = () => {
           Search for a player:
         </label>
         <Select
+          styles={customStyles}
           options={options}
           isSearchable={true}
           onChange={handleSelectChange}
@@ -126,23 +170,50 @@ const App = () => {
       <div className="container mx-auto">
         {playerStats && (
           <div className="player-stats container mx-auto flex flex-wrap py-4 max-w-4xl">
-            {Object.entries(playerStats).map(([key, value]) => (
-              <div
-                key={key}
-                className="stat-item w-full sm:w-40 h-24 bg-gray-800 text-white rounded-lg m-4 transition-transform transform hover:-translate-y-1 shadow-lg flex items-center justify-center"
-              >
-                <div>
-                  <strong className="text-sm block text-center truncate">
-                    {statMapping[key] || key}
-                  </strong>
-                  <span className="text-lg font-semibold block text-center mt-1 truncate">
-                    {value}
-                  </span>
+            {Object.entries(playerStats)
+              .filter(([key]) => key !== "player_id")
+              .map(([key, value], index) => (
+                <div
+                  key={key}
+                  className="stat-item w-full sm:w-40 h-24 text-white rounded-lg m-4 transition-transform transform hover:-translate-y-1 shadow-lg flex items-center justify-center"
+                  style={{
+                    backgroundColor: "#a1c4fd",
+                    backgroundImage:
+                      "linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)",
+                    boxShadow:
+                      "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                    borderRadius: "20px",
+                  }}
+                >
+                  <div>
+                    <strong
+                      className="text-sm block text-center truncate"
+                      style={{ fontFamily: "serif" }}
+                    >
+                      {statMapping[key] || key}
+                    </strong>
+                    <span
+                      className="text-lg font-semibold block text-center mt-1 truncate"
+                      style={{ fontFamily: "sans-serif" }}
+                    >
+                      {value}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         )}
+      </div>
+      <div className="iframe-container">
+        <iframe
+          src=""
+          width="100%"
+          height="100%"
+          // style="position: absolute"
+          frameBorder="0"
+          className="giphy-embed"
+          allowFullScreen
+        ></iframe>
       </div>
     </main>
   );
